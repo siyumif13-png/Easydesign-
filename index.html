@@ -1,0 +1,41 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EasyDesign Global</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f6f7fb;color:#151827}
+header{background:#fff;padding:16px;position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;box-shadow:0 2px 12px #0001}.brand{font-size:22px;font-weight:900}.brand b{color:#635bff}
+nav button{border:0;background:none;padding:9px}.pill{background:#635bff!important;color:#fff;border-radius:10px}
+.page{display:none}.active{display:block}.hero{padding:50px 18px;background:linear-gradient(135deg,#635bff,#8b5cf6);color:#fff}.hero h1{font-size:40px;max-width:700px;margin:0 0 12px}.hero p{max-width:650px;line-height:1.6}.container{max-width:1000px;margin:auto;padding:22px 18px}.title{font-size:25px;font-weight:900;margin:10px 0 18px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:#fff;padding:18px;border-radius:16px;box-shadow:0 3px 15px #0000000b}.icon{font-size:32px}.price{color:#635bff;font-weight:900;margin:8px 0}.muted{color:#707582;line-height:1.5}.btn{border:0;border-radius:11px;padding:12px 16px;font-weight:800;cursor:pointer}.purple{background:#635bff;color:white}.white{background:white;color:#635bff}.form{max-width:540px;background:white;padding:20px;border-radius:16px}.form label{display:block;font-weight:800;margin:12px 0 6px}.form input,.form textarea,.form select{width:100%;padding:12px;border:1px solid #ddd;border-radius:10px}.form .btn{width:100%;margin-top:15px}.order{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #eee;padding:14px 0}.badge{background:#fff1c7;padding:6px 9px;border-radius:20px;font-size:12px;font-weight:800}.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}.stat{font-size:28px;font-weight:900}footer{text-align:center;padding:35px;color:#777}
+@media(max-width:700px){.grid{grid-template-columns:1fr 1fr}.hero h1{font-size:34px}nav button{padding:6px}}
+</style></head><body>
+<header><div class="brand">EasyDesign <b>🌍</b></div><nav><button onclick="go('home')">Home</button><button onclick="go('services')">Services</button><button onclick="go('orders')">Orders</button><button class="pill" onclick="go('account')">Account</button></nav></header>
+
+<div id="home" class="page active"><div class="hero"><div class="container"><h1>Professional design, made simple.</h1><p>Order custom logos, posters, invitations and social media designs from anywhere in the world.</p><button class="btn white" onclick="go('services')">Start an order →</button></div></div><div class="container"><div class="title">Popular services</div><div class="grid" id="homeGrid"></div></div></div>
+
+<div id="services" class="page"><div class="container"><div class="title">Choose a service</div><div class="grid" id="serviceGrid"></div></div></div>
+
+<div id="checkout" class="page"><div class="container"><button class="btn" onclick="go('services')">← Back</button><div class="title" id="checkoutTitle">Order</div><form class="form" onsubmit="placeOrder(event)">
+<label>Full name</label><input id="name" required><label>Email</label><input id="email" type="email" required>
+<label>Country</label><select id="country"><option>United States</option><option>United Kingdom</option><option>Canada</option><option>Kenya</option><option>Ethiopia</option><option>Other</option></select>
+<label>Design brief</label><textarea id="brief" rows="5" required placeholder="Describe your design..."></textarea>
+<label>Delivery date</label><input id="date" type="date"><button class="btn purple">Submit order</button></form></div></div>
+
+<div id="orders" class="page"><div class="container"><div class="title">My Orders</div><div id="ordersBox"></div></div></div>
+
+<div id="account" class="page"><div class="container"><div class="title">Customer Account</div><div class="stats"><div class="card"><div class="muted">Name</div><div id="accName" class="stat">Guest</div></div><div class="card"><div class="muted">Orders</div><div id="accCount" class="stat">0</div></div></div><br><button class="btn purple" onclick="go('login')">Create / Sign in</button></div></div>
+
+<div id="login" class="page"><div class="container"><div class="title">Create your account</div><form class="form" onsubmit="saveAccount(event)"><label>Name</label><input id="regName" required><label>Email</label><input id="regEmail" type="email" required><label>Password</label><input id="regPass" type="password" minlength="6" required><button class="btn purple">Create account</button></form></div></div>
+
+<footer>EasyDesign Global — mobile-first full prototype</footer>
+<script>
+const services=[["Poster Design","📢","$5–$15"],["Logo Design","✨","$10–$30"],["Invitation","💌","$5–$20"],["Social Media Design","📱","$5–$10"]];let selected;
+function go(id){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");if(id=="orders")renderOrders();if(id=="account")renderAccount();scrollTo(0,0)}
+function cards(){return services.map((s,i)=>`<div class="card"><div class="icon">${s[1]}</div><h3>${s[0]}</h3><div class="price">${s[2]}</div><p class="muted">Custom professional design.</p><button class="btn purple" onclick="startOrder(${i})">Order</button></div>`).join("")}
+function startOrder(i){selected=services[i];checkoutTitle.textContent=selected[0]+" · "+selected[2];go("checkout")}
+function getOrders(){return JSON.parse(localStorage.getItem("ed_orders")||"[]")}
+function placeOrder(e){e.preventDefault();let o={id:"ED-"+Math.floor(100000+Math.random()*900000),service:selected[0],price:selected[2],name:name.value,email:email.value,country:country.value,brief:brief.value,date:date.value,status:"Pending",created:new Date().toLocaleDateString()};let a=getOrders();a.push(o);localStorage.setItem("ed_orders",JSON.stringify(a));localStorage.setItem("ed_name",o.name);alert("Order submitted!");go("orders")}
+function renderOrders(){let a=getOrders();ordersBox.innerHTML=a.length?a.slice().reverse().map(o=>`<div class="card order"><div><b>${o.service}</b><div class="muted">${o.id} · ${o.created}</div></div><span class="badge">${o.status}</span></div>`).join(""):"<div class='card'>No orders yet. Start your first order.</div>"}
+function saveAccount(e){e.preventDefault();localStorage.setItem("ed_name",regName.value);localStorage.setItem("ed_email",regEmail.value);alert("Account created on this device.");go("account")}
+function renderAccount(){accName.textContent=localStorage.getItem("ed_name")||"Guest";accCount.textContent=getOrders().length}
+homeGrid.innerHTML=cards();serviceGrid.innerHTML=cards();
+</script></body></html>
