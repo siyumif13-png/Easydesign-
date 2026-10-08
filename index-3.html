@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyDesign Ethiopia</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f7f8fc;color:#171717}
+header{background:#111827;color:white;padding:22px 18px;text-align:center}
+header h1{margin:0;font-size:30px}header p{margin:8px 0 0;color:#d1d5db}
+.hero{padding:28px 18px;text-align:center;background:white}.hero h2{font-size:28px;margin:8px 0}.hero p{color:#555;line-height:1.5}
+.container{max-width:720px;margin:auto;padding:18px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:white;border-radius:16px;padding:18px;box-shadow:0 3px 15px #00000012;border:1px solid #eee}
+.card h3{margin:8px 0}.card p{margin:0;color:#666}.price{font-weight:bold;margin-top:10px}
+form{background:white;margin-top:22px;padding:20px;border-radius:18px;box-shadow:0 3px 15px #00000012}
+label{display:block;font-weight:bold;margin:14px 0 6px}input,select,textarea{width:100%;padding:13px;border:1px solid #ddd;border-radius:10px;font-size:16px}
+textarea{min-height:100px;resize:vertical}.btn{width:100%;border:0;border-radius:12px;padding:15px;margin-top:18px;font-size:17px;font-weight:bold;cursor:pointer}
+.order{background:#111827;color:white}.wa{background:#25D366;color:white}.tg{background:#229ED9;color:white}
+.note{font-size:13px;color:#666;text-align:center;margin-top:10px}
+footer{text-align:center;padding:25px;color:#777}
+@media(max-width:480px){.grid{grid-template-columns:1fr}header h1{font-size:25px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>EasyDesign Ethiopia</h1>
+  <p>Professional designs, made simple.</p>
+</header>
+
+<section class="hero">
+  <h2>Design your idea. We make it real.</h2>
+  <p>Order posters, logos, invitations and social media designs from your phone.</p>
+</section>
+
+<main class="container">
+  <h2>Our Services</h2>
+  <div class="grid">
+    <div class="card"><h3>🎨 Poster Design</h3><p>Modern promotional posters.</p><div class="price">From 100 ETB</div></div>
+    <div class="card"><h3>✨ Logo Design</h3><p>Clean logos for your brand.</p><div class="price">From 300 ETB</div></div>
+    <div class="card"><h3>💌 Invitation</h3><p>Wedding, birthday and event invitations.</p><div class="price">From 150 ETB</div></div>
+    <div class="card"><h3>📱 Social Media</h3><p>Posts, ads and promotional graphics.</p><div class="price">From 100 ETB</div></div>
+  </div>
+
+  <form id="orderForm">
+    <h2>Place an Order</h2>
+    <label for="name">Your name</label>
+    <input id="name" required placeholder="Enter your name">
+
+    <label for="phone">Phone number</label>
+    <input id="phone" required placeholder="09XXXXXXXX">
+
+    <label for="service">Choose a service</label>
+    <select id="service" required>
+      <option value="">Select one</option>
+      <option>Poster Design</option>
+      <option>Logo Design</option>
+      <option>Invitation Design</option>
+      <option>Social Media Design</option>
+    </select>
+
+    <label for="details">Tell us what you need</label>
+    <textarea id="details" required placeholder="Describe your design, colors, text, deadline, etc."></textarea>
+
+    <button class="btn order" type="submit">Send Order</button>
+    <p class="note">Your order details will be prepared for WhatsApp.</p>
+  </form>
+
+  <button class="btn wa" onclick="openWhatsApp()">💬 Contact on WhatsApp</button>
+  <button class="btn tg" onclick="openTelegram()">✈️ Contact on Telegram</button>
+</main>
+
+<footer>© 2026 EasyDesign Ethiopia • Designed for mobile</footer>
+
+<script>
+/* Replace these with your real business contacts before publishing. */
+const WHATSAPP_NUMBER = "251703852483";
+const TELEGRAM_USERNAME = "Siyu13m";
+
+function orderText(){
+  const name=document.getElementById("name").value;
+  const phone=document.getElementById("phone").value;
+  const service=document.getElementById("service").value;
+  const details=document.getElementById("details").value;
+  return `Hello EasyDesign Ethiopia!%0A%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0AService: ${encodeURIComponent(service)}%0ADetails: ${encodeURIComponent(details)}`;
+}
+document.getElementById("orderForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${orderText()}`,"_blank");
+});
+function openWhatsApp(){
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}`,"_blank");
+}
+function openTelegram(){
+  window.open(`https://t.me/${TELEGRAM_USERNAME}`,"_blank");
+}
+</script>
+</body>
+</html>
